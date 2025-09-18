@@ -11,7 +11,7 @@
         <input type="text" name="names" id="names">
         <button id="run-btn">Run</button>
     </div>
-    <div id="select-area">
+    <div id="select-area" style="display: none;">
         <label for="overall-language">Choose an option:</label>
         <select id="overall-language" name="overall-language">
         </select>
@@ -29,6 +29,8 @@
             <!-- User data rows will be here -->
         </tbody>
     </table>
+
+    <div id="error-message" style="color:red;margin-top:10px"></div>
 
 
     <script src="app.js"></script>
