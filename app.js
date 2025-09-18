@@ -53,12 +53,14 @@ document.getElementById("run-btn").addEventListener("click", function (){
             langOption.value = lang;
             langOption.textContent = lang;
             selectDropDown.appendChild(langOption)
-        }
+        }// end of dropdown
+        
+        populateTable(allUsersData);
     });
 
     
 })
-
+// getting the data which we need
 function formattedData(data){
     const usersData = data.map(user => ({
         username: user.username,
@@ -81,3 +83,37 @@ function formattedData(data){
     }
     return allData;
 }
+
+// creating table 
+function populateTable(allUsersData) {
+    document.getElementById("users-table").style.display = "table"; // show the table which was hidden as default
+    // get the tbody of your table
+    const tbody = document.querySelector("#users-table tbody");
+
+    // clear existing rows data
+    tbody.innerHTML = "";
+
+    // loop over each user and create a table row
+    for (let user of allUsersData.usersData) {
+        const tr = document.createElement("tr");
+
+        // Username
+        const tdUsername = document.createElement("td");
+        tdUsername.textContent = user.username ?? ""; // empty if undefined
+        tr.appendChild(tdUsername);
+
+        // Clan
+        const tdClan = document.createElement("td");
+        tdClan.textContent = user.clan ?? ""; // empty if undefined
+        tr.appendChild(tdClan);
+
+        // Score
+        const tdScore = document.createElement("td");
+        tdScore.textContent = user.score ?? 0;
+        tr.appendChild(tdScore);
+
+        // append row to tbody
+        tbody.appendChild(tr);
+    }
+}
+
