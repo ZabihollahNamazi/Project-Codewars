@@ -44,6 +44,8 @@ document.getElementById("run-btn").addEventListener("click", function (){
 
         // dropdown for overall and languages
         let selectDropDown = document.getElementById("overall-language");
+        // Clear previous options
+        selectDropDown.innerHTML = "";
         let overallOption = document.createElement("option");
         overallOption.value = "overall";
         overallOption.textContent = "Overall";
@@ -56,6 +58,15 @@ document.getElementById("run-btn").addEventListener("click", function (){
         }// end of dropdown
         
         populateTable(allUsersData);
+        selectDropDown.addEventListener("change", function () {
+            let selectedValue = selectDropDown.value; // get the value of the selected option
+            if(selectedValue == "overall"){
+                populateTable(allUsersData);
+            }
+            else{
+                populateTableLanguage(allUsersData, selectedValue)
+            }
+        });        
     });
 
     
@@ -68,6 +79,8 @@ function formattedData(data){
         score: user.ranks?.overall?.score ?? 0,
         languages: user.ranks?.languages ?? {}
     }));
+    usersData.sort((a, b) => b.score - a.score); // sorting by scores from top to down 
+
     let languagesList = []; // to get a list of languages , not repeated ones
     for(let user of data){
         const langs = Object.keys(user.ranks?.languages ?? {}); // Get all language names (keys) from user.ranks.languages
@@ -94,7 +107,7 @@ function populateTable(allUsersData) {
     tbody.innerHTML = "";
 
     // loop over each user and create a table row
-    for (let user of allUsersData.usersData) {
+    allUsersData.usersData.forEach((user, index) => { //index the position of the user element
         const tr = document.createElement("tr");
 
         // Username
@@ -110,10 +123,63 @@ function populateTable(allUsersData) {
         // Score
         const tdScore = document.createElement("td");
         tdScore.textContent = user.score ?? 0;
+        // emojis for top scorer
+        if (index === 0) {
+            tdScore.textContent += " 🏆💪🎉";
+        }
         tr.appendChild(tdScore);
 
         // append row to tbody
         tbody.appendChild(tr);
-    }
+    })
 }
 
+function populateTableLanguage(allUsersData, selectedValue){
+    document.getElementById("users-table").style.display = "table"; // show the table which was hidden as default
+    // get the tbody of your table
+    const tbody = document.querySelector("#users-table tbody");
+
+    // clear existing rows data
+    tbody.innerHTML = "";
+
+    // Filter users who have that language
+    let filteredUsers = allUsersData.usersData.filter(user => user.languages[selectedValue]);
+
+    // Sort them by language score (highest → lowest)
+    filteredUsers.sort((a, b) => 
+        (b.languages[selectedValue].score ?? 0) - (a.languages[selectedValue].score ?? 0)
+    );
+
+        //  Loop through sorted users
+    filteredUsers.forEach((user, index) => {
+        const langInfo = user.languages[selectedValue];
+        const tr = document.createElement("tr");
+
+        // Username
+        const tdUsername = document.createElement("td");
+        tdUsername.textContent = user.username ?? "";
+        tr.appendChild(tdUsername);
+
+        // Clan
+        const tdClan = document.createElement("td");
+        tdClan.textContent = user.clan ?? "";
+        tr.appendChild(tdClan);
+
+        // Score
+        const tdScore = document.createElement("td");
+        tdScore.textContent = langInfo.score ?? 0;
+
+        // add emoji for top scorer
+        if (index === 0) {
+            tdScore.textContent += " 🏆💪🎉";
+        }
+        tr.appendChild(tdScore);
+
+        tbody.appendChild(tr);
+    });
+
+}
+
+function sortedRanksByScore(selectedValue,allUsersData){
+
+}
