@@ -1,5 +1,5 @@
 const api = "https://www.codewars.com/api/v1/users/";
-
+const formattedData = require("./format");
 document.getElementById("run-btn").addEventListener("click", function (){
     document.getElementById("select-area").style.display = "block";
     let namesInput = document.getElementById("names").value;
@@ -26,6 +26,7 @@ document.getElementById("run-btn").addEventListener("click", function (){
                 })
         )
     ).then(results => {
+        console.log(results);
         const validResults = results.filter(r => r !== null);
         console.log(formattedData(validResults));
         const allUsersData = formattedData(validResults);
@@ -59,31 +60,7 @@ document.getElementById("run-btn").addEventListener("click", function (){
 
     
 })
-// getting the data which we need
-function formattedData(data){
-    const usersData = data.map(user => ({
-        username: user.username,
-        clan: user.clan,
-        score: user.ranks?.overall?.score ?? 0,
-        languages: user.ranks?.languages ?? {}
-    }));
-    usersData.sort((a, b) => b.score - a.score); // sorting by scores from top to down 
 
-    let languagesList = []; // to get a list of languages , not repeated ones
-    for(let user of data){
-        const langs = Object.keys(user.ranks?.languages ?? {}); // Get all language names (keys) from user.ranks.languages
-        for(let lang of langs){
-            if(!languagesList.includes(lang)){
-                languagesList.push(lang)
-            }
-        }
-    }
-    const allData = {
-        usersData,
-        languagesList
-    }
-    return allData;
-}
 
 // creating table 
 function populateTable(allUsersData) {
@@ -168,6 +145,3 @@ function populateTableLanguage(allUsersData, selectedValue){
 
 }
 
-function sortedRanksByScore(selectedValue,allUsersData){
-
-}
