@@ -1,13 +1,13 @@
 const api = "https://www.codewars.com/api/v1/users/";
-// const formattedData = require("./format");
+
 document.getElementById("run-btn").addEventListener("click", function (){
     document.getElementById("select-area").style.display = "block";
     let namesInput = document.getElementById("names").value;
     const names = namesInput.split(",")
     .map(name => name.trim())
     .filter(name => name !== ""); // removes empty strings like if any item is not equal to empty will be return to array.
-    console.log(names);
-
+    // clear the input
+    document.getElementById("names").value = "";
     const errorMessageDiv = document.getElementById("error-message");
     errorMessageDiv.innerHTML = ""; // clear previous messages
     Promise.all(
