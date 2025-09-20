@@ -26,9 +26,9 @@ document.getElementById("run-btn").addEventListener("click", function (){
                 })
         )
     ).then(results => {
-        console.log(results);
+        
         const validResults = results.filter(r => r !== null);
-        console.log(formattedData(validResults));
+        
         const allUsersData = formattedData(validResults);
 
         // dropdown for overall and languages
@@ -65,7 +65,7 @@ document.getElementById("run-btn").addEventListener("click", function (){
 // creating table 
 function populateTable(allUsersData) {
     document.getElementById("users-table").style.display = "table"; // show the table which was hidden as default
-    // get the tbody of your table
+    // get the tbody of table
     const tbody = document.querySelector("#users-table tbody");
 
     // clear existing rows data
@@ -101,13 +101,13 @@ function populateTable(allUsersData) {
 
 function populateTableLanguage(allUsersData, selectedValue){
     document.getElementById("users-table").style.display = "table"; // show the table which was hidden as default
-    // get the tbody of your table
+    // get the tbody table
     const tbody = document.querySelector("#users-table tbody");
 
     // clear existing rows data
     tbody.innerHTML = "";
 
-    // Filter users who have that language
+    // filter users who have that language
     let filteredUsers = allUsersData.usersData.filter(user => user.languages[selectedValue]);
 
     // Sort them by language score (highest → lowest)
