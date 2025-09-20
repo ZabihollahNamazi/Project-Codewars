@@ -1,5 +1,5 @@
 const api = "https://www.codewars.com/api/v1/users/";
-const formattedData = require("./format");
+// const formattedData = require("./format");
 document.getElementById("run-btn").addEventListener("click", function (){
     document.getElementById("select-area").style.display = "block";
     let namesInput = document.getElementById("names").value;

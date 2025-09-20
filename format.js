@@ -24,4 +24,12 @@ function formattedData(data){
     return allData;
 }
 
-module.exports = formattedData;
+// Browser global
+if (typeof window !== "undefined") {
+    window.formattedData = formattedData;
+}
+
+// Node / Jest
+if (typeof module !== "undefined" && module.exports) {
+    module.exports = formattedData;
+}
